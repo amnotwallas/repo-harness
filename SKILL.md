@@ -27,8 +27,10 @@ If the request is ambiguous, inspect the repository first, then ask one focused 
 5. Preserve useful existing conventions; extend or link before replacing or duplicating.
 6. Keep the harness surface proportional to the repository.
 7. Diagnose harness quality, not general code quality.
+8. Recommend tooling only when evidence shows a real verification or feedback-loop gap; the absence of a common tool is not evidence by itself.
 
 No file is mandatory. A missing `AGENTS.md`, `CLAUDE.md`, `GEMINI.md`, or similar entrypoint is not a gap unless agents demonstrably cannot discover or use required guidance.
+Before recording a gap, check for equivalent capability elsewhere. A missing file or directory is not a finding by itself; name the affected capability and evidence that it is missing, fragmented, contradictory, or hard to discover.
 
 ## Command execution safety
 
@@ -59,11 +61,11 @@ Prefer a single canonical command such as an existing `make verify`, `just verif
 Evaluate how safely and efficiently an unfamiliar human or coding agent can understand, modify, and verify the repository. Do not perform a generic code review.
 
 1. Choose static mode unless the user explicitly requests runtime checks and they are safe. Static mode inspects repository files only.
-2. Read [references/discovery.md](references/discovery.md), then inspect enough high-signal evidence to support a confident audit. Stop before exhaustive scanning.
+2. Read [references/discovery.md](references/discovery.md), then inspect enough high-signal evidence to support a confident audit. Evaluate each relevant dimension independently and stop exploring that dimension once the evidence is sufficient to score it confidently. Continue deeper only when evidence is missing, contradictory, or high-risk; never scan exhaustively for confirmation.
 3. Read [references/audit-rubric.md](references/audit-rubric.md) and score all seven dimensions from 0–100: Context, Navigation, Constraints, Verification, Feedback Loops, Operational Understanding, and Agent Readiness.
 4. Check contradictions between documentation and executable configuration, and duplication that creates unclear ownership or drift.
 5. Read [references/findings.md](references/findings.md). Make every important finding evidence-backed and include severity, dimension, evidence, impact, smallest useful fix, and affected paths when relevant.
-6. Recommend only corrections supported by evidence. Keep scores as approximate summaries, not scientific measurements; label hypotheses and unknowns instead of inventing facts.
+6. Recommend only corrections supported by evidence. Do not prescribe linting, type checking, formatting, or other common tooling merely because it is absent; recommend it only when repository evidence shows a real verification or feedback-loop gap. Keep scores as approximate summaries, not scientific measurements; label hypotheses and unknowns instead of inventing facts.
 7. In runtime mode, apply the command execution safety rules above and run only existing checks classified as safe.
 
 Use an output shape like:

@@ -25,7 +25,7 @@ The repository has:
 3. Evaluate root-level and workspace-level navigation, constraints, setup, and verification separately where ownership differs.
 4. Check parity between root CI and workspace commands before proposing changes.
 5. Recommend the smallest correction at the correct ownership level, preserving workspace-local context.
-6. Stop exploring once the evidence supports a confident audit; do not scan every package/file.
+6. Evaluate each dimension at the smallest relevant scope and stop exploring it once the root/workspace evidence is sufficient. Continue deeper only when evidence is missing, contradictory, or high-risk; do not scan every package/file.
 
 ## Must not happen
 
@@ -33,6 +33,7 @@ The repository has:
 - Duplicate a workspace-specific rule at the root without reason.
 - Demand one universal command when the existing root and workspace checks have distinct valid scopes.
 - Report unsupported gaps from uninspected workspaces.
+- Continue scanning a dimension after its relevant root and workspace evidence is already sufficient merely to seek more confirmation.
 
 ## Pass criteria
 
@@ -44,4 +45,4 @@ The baseline agent treated the request as an audit, inspected root/workspace bou
 
 ## GREEN observation with the skill
 
-The skill kept the root manifest, root checks, workspace commands, and local rules distinct; marked coverage and scope concerns as hypotheses; and recommended links or local corrections instead of a new monorepo-wide guide.
+The skill kept the root manifest, root checks, workspace commands, and local rules distinct; stopped each dimension once its evidence was sufficient; marked coverage and scope concerns as hypotheses; and recommended links or local corrections instead of a new monorepo-wide guide.

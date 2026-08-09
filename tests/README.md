@@ -20,10 +20,11 @@ The scenarios are conceptual. They do not require a test runner, fixture reposit
 | --- | --- |
 | `healthy-project.md` | Avoid unnecessary harness files and changes. |
 | `poor-harness.md` | Find harness gaps even when the source code is reasonable. |
+| `capability-over-file-presence.md` | Evaluate capabilities instead of treating missing expected files as findings. |
 | `stale-docs.md` | Detect contradictions between documentation and executable configuration. |
 | `vendor-specific.md` | Reuse useful existing guidance instead of duplicating it blindly. |
 | `monorepo.md` | Separate root-level and workspace-level harness concerns. |
-| `minimal-library.md` | Keep a small repository from being over-engineered. |
+| `minimal-library.md` | Keep a small repository from being over-engineered or prescribed common tooling without evidence. |
 | `runtime-command-safety.md` | Classify canonical commands before executing side effects. |
 
 ## Review rule

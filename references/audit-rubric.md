@@ -12,6 +12,10 @@ Score each dimension from 0–100 based on repository evidence. Use the bands be
 
 Scores summarize confidence and capability; they are not scientifically precise. A low score requires evidence of a capability failure, not merely a missing filename.
 
+## Evidence gate
+
+Score capabilities, not expected files or common tools. Before lowering a score or writing a finding, check whether an equivalent capability exists elsewhere and whether it is discoverable, coherent, and usable. A finding must name a missing, fragmented, contradictory, or hard-to-discover capability and cite the evidence for that failure.
+
 ## 1. Context
 
 **Purpose:** Determine whether an unfamiliar contributor can understand what the project does and its important domain concepts.
@@ -80,7 +84,7 @@ Scores summarize confidence and capability; they are not scientifically precise.
 
 **Common failure:** Adding tooling without evidence that existing feedback is insufficient.
 
-**Scoring:** Score high when the repository supports a tight edit–check loop; reduce for avoidable latency, ambiguity, or drift.
+**Scoring:** Score high when the repository supports a tight edit–check loop; reduce for avoidable latency, ambiguity, or drift. Do not reduce the score or prescribe linting, type checking, formatting, or other common tools merely because they are absent; require evidence of a real feedback-loop or verification gap.
 
 ## 6. Operational Understanding
 

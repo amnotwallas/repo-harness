@@ -22,11 +22,15 @@ Look for high-signal names such as `README`, manifests, lockfiles, `Makefile`, t
 
 Start at the root. Follow links and references only when they answer a current question about purpose, navigation, constraints, operations, or verification. Inspect representative modules when the root docs do not establish ownership; do not read every source file.
 
-Use this stop condition:
+Use this stop condition for the repository as a whole:
 
 > Stop exploring once enough evidence exists to identify the relevant capability, its current owner, and the smallest safe correction—or to conclude that no correction is justified.
 
-Before expanding the scan, ask whether the next file can change the harness decision. If not, stop.
+### Dimension-level stop conditions
+
+Evaluate each relevant harness dimension independently. Stop exploring a dimension once its evidence is sufficient to evaluate the capability confidently and identify its source of truth or current owner. Continue deeper only when the evidence for that dimension is missing, contradictory, or high-risk to act on without more context.
+
+Before expanding a dimension's scan, ask whether the next file can change its score, finding, ownership, or recommended correction. If not, stop. Do not keep scanning to confirm the absence of a preferred filename, directory, or common tool.
 
 ## Monorepos and workspaces
 
@@ -60,4 +64,4 @@ For each possible gap, record:
 - the smallest correction that would make the capability discoverable or executable;
 - uncertainty that still needs a question or runtime check.
 
-Missing files are not evidence by themselves. A file becomes relevant only when its absence causes a discoverability, consistency, safety, or verification failure.
+Missing files or directories are leads, not findings. First check whether an equivalent capability exists elsewhere and is discoverable. Record a finding only when the absence causes a specific discoverability, consistency, safety, or verification failure, and describe that capability failure with evidence rather than naming the missing path alone.

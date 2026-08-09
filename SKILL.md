@@ -63,10 +63,11 @@ Evaluate how safely and efficiently an unfamiliar human or coding agent can unde
 1. Choose static mode unless the user explicitly requests runtime checks and they are safe. Static mode inspects repository files only.
 2. Read [references/discovery.md](references/discovery.md), then inspect enough high-signal evidence to support a confident audit. Evaluate each relevant dimension independently and stop exploring that dimension once the evidence is sufficient to score it confidently. Continue deeper only when evidence is missing, contradictory, or high-risk; never scan exhaustively for confirmation.
 3. Read [references/audit-rubric.md](references/audit-rubric.md) and score all seven dimensions from 0–100: Context, Navigation, Constraints, Verification, Feedback Loops, Operational Understanding, and Agent Readiness.
-4. Check contradictions between documentation and executable configuration, and duplication that creates unclear ownership or drift.
-5. Read [references/findings.md](references/findings.md). Make every important finding evidence-backed and include severity, dimension, evidence, impact, smallest useful fix, and affected paths when relevant.
+4. Check contradictions between documentation and executable configuration, and duplication that creates unclear ownership or drift. Keep dependency/configuration inconsistencies scoped to setup, deployment, verification, or reproducibility contracts; do not turn the audit into a dependency correctness scanner.
+5. Read [references/findings.md](references/findings.md). Make every important finding evidence-backed and include a title naming the broken capability or contract, severity, dimension, evidence, impact, smallest useful fix, and affected paths when relevant. Keep missing paths in the evidence, not as the root problem or title.
 6. Recommend only corrections supported by evidence. Do not prescribe linting, type checking, formatting, or other common tooling merely because it is absent; recommend it only when repository evidence shows a real verification or feedback-loop gap. Keep scores as approximate summaries, not scientific measurements; label hypotheses and unknowns instead of inventing facts.
-7. In runtime mode, apply the command execution safety rules above and run only existing checks classified as safe.
+7. In static mode, separate repository facts from inferred runtime impact and use conditional uncertainty language for consequences that were not executed or otherwise proven. Do not state an inferred runtime failure as confirmed.
+8. In runtime mode, apply the command execution safety rules above and run only existing checks classified as safe.
 
 Use an output shape like:
 

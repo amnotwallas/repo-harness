@@ -14,7 +14,9 @@ Scores summarize confidence and capability; they are not scientifically precise.
 
 ## Evidence gate
 
-Score capabilities, not expected files or common tools. Before lowering a score or writing a finding, check whether an equivalent capability exists elsewhere and whether it is discoverable, coherent, and usable. A finding must name a missing, fragmented, contradictory, or hard-to-discover capability and cite the evidence for that failure.
+Score capabilities, not expected files or common tools. Before lowering a score or writing a finding, check whether an equivalent capability exists elsewhere and whether it is discoverable, coherent, and usable. A finding must name a missing, fragmented, contradictory, or hard-to-discover capability or contract and cite the evidence for that failure; if an absent path matters, keep it in the evidence rather than making it the finding title.
+
+Static evidence may support a conditional runtime risk, but it does not prove that the runtime failure occurred. Use uncertainty language unless the behavior was executed or otherwise proven. Reserve `CRITICAL` for strong evidence of a fundamental harness failure; static inference alone should normally receive a lower or provisional severity.
 
 ## 1. Context
 
@@ -62,13 +64,13 @@ Score capabilities, not expected files or common tools. Before lowering a score 
 
 **Purpose:** Determine whether a contributor can prove that a change works and meets repository expectations.
 
-**Ask:** Are tests, lint, type checks, builds, integration checks, and a canonical verification path available? Does local verification match CI?
+**Ask:** Are tests, lint, type checks, builds, integration checks, and a canonical verification path available? Does local verification match CI? Do dependency and configuration sources describe a reproducible setup, deployment, or verification contract?
 
 **Strong signals:** One discoverable command, focused checks, reproducible prerequisites, CI parity, clear completion evidence.
 
 **Weak signals:** Tests exist but no full path, CI-only checks, stale commands, or no way to know when a change is complete.
 
-**Common failure:** Saying “run tests” when CI also requires other checks.
+**Common failure:** Saying “run tests” when CI also requires other checks, or treating a dependency/configuration disagreement as package correctness without explaining its harness impact.
 
 **Scoring:** Score high when relevant checks are executable and aligned; reduce for missing, hidden, flaky, or contradictory verification.
 

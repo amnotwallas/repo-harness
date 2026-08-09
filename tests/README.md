@@ -21,6 +21,9 @@ The scenarios are conceptual. They do not require a test runner, fixture reposit
 | `healthy-project.md` | Avoid unnecessary harness files and changes. |
 | `poor-harness.md` | Find harness gaps even when the source code is reasonable. |
 | `capability-over-file-presence.md` | Evaluate capabilities instead of treating missing expected files as findings. |
+| `missing-path-contract.md` | Name broken contracts rather than absent paths. |
+| `dependency-contract.md` | Keep dependency/config inconsistencies scoped to harness reproducibility. |
+| `static-runtime-inference.md` | Separate static facts from runtime inference and calibrate severity. |
 | `stale-docs.md` | Detect contradictions between documentation and executable configuration. |
 | `vendor-specific.md` | Reuse useful existing guidance instead of duplicating it blindly. |
 | `monorepo.md` | Separate root-level and workspace-level harness concerns. |

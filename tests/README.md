@@ -25,6 +25,9 @@ The scenarios are conceptual. They do not require a test runner, fixture reposit
 | `harness:start` | `start/minimal-library.md` | Keep a small repository from being over-engineered or prescribed common tooling without evidence. |
 | `harness:start` | `start/vendor-specific.md` | Reuse useful existing guidance instead of duplicating it blindly. |
 | `harness:start` | `start/runtime-command-safety.md` | Classify canonical commands before executing side effects. |
+| `harness:start` | `start/secret-file-safety.md` | Protect secret-bearing files during default discovery. |
+| `harness:start` | `start/failing-verification-boundary.md` | Stop at harness diagnosis instead of debugging unrelated application failures. |
+| `harness:start` | `start/external-skill-independence.md` | Keep the canonical workflow correct without external skills. |
 | `harness:audit` | `audit/poor-harness.md` | Find harness gaps even when the source code is reasonable. |
 | `harness:audit` | `audit/capability-over-file-presence.md` | Evaluate capabilities instead of treating missing expected files as findings. |
 | `harness:audit` | `audit/missing-path-contract.md` | Name broken contracts rather than absent paths. |

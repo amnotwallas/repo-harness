@@ -16,6 +16,8 @@ Bootstrap or improve the minimum useful engineering harness around an existing r
 5. Keep the harness surface proportional to the repository.
 6. Recommend tooling only when evidence shows a real verification or feedback-loop gap.
 7. Do not perform a generic code review.
+8. Classify every path before reading its contents. By default, do not open, print, grep, parse, or summarize `.env`, `.env.*`, credential files, private keys, secret files, or similar local secret-bearing files. `.env.example`, schemas, documented variable names, ignore rules, and path existence are safe to inspect. Read protected contents only after an explicit user request, using the minimum necessary scope and redacting secret values.
+9. External skills may augment execution, but `harness-start` must be fully usable and behaviorally correct when they are absent.
 
 No file is mandatory. Check for equivalent capability elsewhere before recording a gap. A missing path is evidence only when it demonstrates a specific missing, fragmented, contradictory, or hard-to-discover capability.
 
@@ -26,7 +28,7 @@ No file is mandatory. Check for equivalent capability elsewhere before recording
 3. Ask only important questions that repository evidence cannot answer. Target 0–4 questions for a normal repository.
 4. Read [references/harness-patterns.md](references/harness-patterns.md) and propose the smallest useful correction for each evidenced gap. Explain what to reuse or skip.
 5. Before significant edits, present the proposal. Modify the repository only when the user has requested or authorized the change, preserving existing ownership and conventions.
-6. Verify the resulting harness safely. Classify every command and its full chain before execution. If runtime execution was not requested or cannot be made safe, use static inspection and state that runtime verification was not executed.
+6. Verify the resulting harness safely. Classify every command and its full chain before execution. When verification is requested, safe existing verification commands may establish a baseline. If runtime execution was not requested or cannot be made safe, use static inspection and state that runtime verification was not executed. If verification fails, inspect only enough evidence to determine whether the failure represents a harness capability gap; do not automatically debug unrelated application behavior or rerun targeted tests.
 7. Report changed paths, verification evidence, unresolved uncertainty, and skipped work.
 
 ## Command safety
@@ -40,6 +42,24 @@ Apply these rules before any repository command:
 5. If safe checks can be separated from an unsafe command, run only the clearly safe checks and report partial verification.
 
 Prefer an existing canonical command such as `make verify`, `just verify`, a package-manager task, or an equivalent repository-defined path. Do not add a new tool merely to make the harness appear complete.
+
+## Verification failure boundary
+
+When a safe verification command fails:
+
+- Inspect only enough evidence to determine whether the failure affects the repository harness contract.
+- Treat these as harness-relevant when supported by evidence:
+  - CI and local verification disagree;
+  - the documented or canonical verification command is broken;
+  - tests depend on undocumented local environment state;
+  - setup or verification depends on hidden configuration;
+  - the verification path cannot be reproduced from repository guidance;
+  - required verification infrastructure is missing or contradictory.
+- Do not automatically treat business-logic assertion failures, stale fixtures or domain data, isolated implementation bugs, product behavior failures, or application defects unrelated to the harness contract as harness gaps.
+- If the failure is not shown to be harness-related, report the command, outcome, and remaining uncertainty without debugging the application or repairing its implementation.
+- Do not automatically enter targeted debugging or rerun targeted tests. A minimal rerun may be appropriate only when strictly necessary to confirm a harness contract or reproducibility issue.
+- Repair an application failure only when evidence shows that it prevents the harness itself from being usable or reproducible.
+- Deeper debugging may be identified as outside this workflow or delegated to another workflow, but correctness of `harness-start` must not depend on an external skill being installed.
 
 ## Completion criteria
 

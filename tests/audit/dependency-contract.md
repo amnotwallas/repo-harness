@@ -20,21 +20,23 @@ The repository contains:
 
 ## Expected behavior
 
-1. Select `harness:audit` in static mode.
+1. Use `harness-audit` in static mode.
 2. Compare the dependency sources and deployment configuration as a reproducibility contract.
 3. Report a harness finding such as `Dependency sources of truth are inconsistent` or `Deployment dependency contract is not reproducible`.
 4. Cite the conflicting files and explain the effect on setup, deployment, or verification.
 5. Keep the finding scoped to source-of-truth consistency; do not scan or adjudicate every package version as a dependency correctness review.
+6. Do not modify the repository or implement the recommendation.
 
 ## Must not happen
 
 - Turn the audit into a package vulnerability or dependency correctness scanner.
 - Report an arbitrary list of “missing” packages without connecting it to the repository's setup or deployment contract.
 - Claim that deployment definitely fails without execution or stronger evidence.
+- Switch into the mutating start workflow.
 
 ## Pass criteria
 
-The audit identifies the inconsistent dependency contract, keeps the analysis inside harness scope, and recommends one smallest source-of-truth correction.
+The audit identifies the inconsistent dependency contract, keeps the analysis inside harness scope, recommends one smallest source-of-truth correction, and remains non-mutating.
 
 ## Baseline observation without the updated guard
 
@@ -42,4 +44,4 @@ The dogfooding audit treated the disagreement as a dependency correctness proble
 
 ## GREEN observation with the updated guard
 
-The skill reported the inconsistent dependency sources as a harness contract finding, cited the deployment and local setup paths, and avoided package-by-package correctness claims.
+The skill reported the inconsistent dependency sources as a harness contract finding, cited the deployment and local setup paths, avoided package-by-package correctness claims, and did not modify files.

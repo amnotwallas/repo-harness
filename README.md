@@ -1,8 +1,13 @@
 # Repo Harness
 
-Vendor-neutral Agent Skill for bootstrapping and auditing the engineering harness around a software repository.
+Vendor-neutral collection of Agent Skills for bootstrapping and auditing the engineering harness around a software repository.
 
 Repo Harness helps an unfamiliar developer or coding agent understand where to work, which constraints apply, how to get useful feedback, and how to verify that a change is complete. It evaluates repository capabilities rather than checking for particular filenames.
+
+| Skill | Purpose |
+| --- | --- |
+| `harness-start` | Bootstrap or improve a repository harness |
+| `harness-audit` | Evaluate an existing repository harness |
 
 ## Why Repo Harness?
 
@@ -36,27 +41,27 @@ flowchart TB
 
 ## How it works
 
-`harness:start` and `harness:audit` are logical intents. Actual slash-command registration depends on the runtime.
+`harness-start` and `harness-audit` are the two skills in the collection. `harness:start` and `harness:audit` are logical UX labels; actual slash-command registration depends on the runtime.
 
 ```mermaid
 flowchart TD
     repository["Repository"] --> discover["Discover high-signal context"]
     discover --> intent{"Logical intent"}
 
-    intent --> start["harness:start"]
+    intent --> start["harness-start"]
     start --> startGaps["Find gaps"]
     startGaps --> startPlan["Minimal harness plan"]
     startPlan --> startImplement["Implement"]
     startImplement --> startVerify["Verify safely"]
 
-    intent --> audit["harness:audit"]
+    intent --> audit["harness-audit"]
     audit --> auditEvaluate["Evaluate capabilities"]
     auditEvaluate --> auditScore["Scorecard"]
     auditScore --> auditFindings["Evidence-based findings"]
     auditFindings --> auditImprove["Prioritized improvements"]
 ```
 
-### `harness:start`
+### `harness-start`
 
 Bootstrap or improve the minimum useful harness for the current repository:
 
@@ -67,7 +72,7 @@ discover → identify gaps → ask only necessary questions
 
 Discovery comes before questions. Existing conventions and sources of truth are reused before new files, commands, or documentation are proposed.
 
-### `harness:audit`
+### `harness-audit`
 
 Evaluate how safely and efficiently an unfamiliar human or coding agent can understand, modify, and verify the repository:
 
@@ -76,7 +81,7 @@ discover → inspect the existing harness → evaluate seven dimensions
 → evidence-based findings → prioritized improvements
 ```
 
-Audits are static by default. Safe runtime validation is optional when explicitly requested and appropriate.
+Audits are static by default and never modify repository files or state. Safe local runtime validation is optional only when explicitly requested and appropriate; findings are not implemented by the audit skill.
 
 An illustrative scorecard might look like this:
 
@@ -141,7 +146,7 @@ Findings should cite repository evidence, explain impact, and recommend the smal
 
 ## Safety
 
-Static audits inspect repository files only. Runtime audits may run existing local validation—such as tests, lint, type checks, builds, or a canonical verification command—only after the command and its full chain are classified as safe.
+`harness-audit` is non-mutating: it inspects repository files by default and may run safe local validation only when the user explicitly requests runtime validation. `harness-start` may modify the repository when requested, but verifies safely after changes. Both skills classify a command and its full chain before execution.
 
 Commands that deploy, publish, mutate cloud or shared state, alter production data, perform destructive migrations, require credentialed external operations, or have unclear effects must not be executed automatically. If a command is unsafe, ask for approval or report that runtime verification was not executed. Never claim that skipped verification passed.
 
@@ -149,37 +154,37 @@ Commands that deploy, publish, mutate cloud or shared state, alter production da
 
 ```text
 repo-harness/
-├── README.md
-├── LICENSE
-├── SKILL.md
+├── skills/
+│   ├── harness-start/
+│   │   ├── SKILL.md
+│   │   └── references/
+│   │       ├── discovery.md
+│   │       └── harness-patterns.md
+│   └── harness-audit/
+│       ├── SKILL.md
+│       └── references/
+│           ├── discovery.md
+│           ├── audit-rubric.md
+│           └── findings.md
+├── tests/
+│   ├── README.md
+│   ├── start/
+│   └── audit/
 ├── docs/
 │   └── spec.md
-├── references/
-│   ├── audit-rubric.md
-│   ├── discovery.md
-│   ├── findings.md
-│   └── harness-patterns.md
-└── tests/
-    ├── README.md
-    └── scenarios/
-        ├── healthy-project.md
-        ├── minimal-library.md
-        ├── monorepo.md
-        ├── poor-harness.md
-        ├── runtime-command-safety.md
-        ├── stale-docs.md
-        └── vendor-specific.md
+├── README.md
+└── LICENSE
 ```
 
-[`SKILL.md`](SKILL.md) defines agent behavior. The [`references/`](references/) directory provides detailed discovery, scoring, findings, and harness-pattern guidance. The [`tests/scenarios/`](tests/scenarios/) directory contains conceptual behavioral scenarios rather than a runner or fixture repository.
+Each `SKILL.md` defines one focused behavior and stays with its supporting references. The [`tests/`](tests/) directory contains conceptual behavioral scenarios rather than a runner or fixture repository.
 
 ## Installation
 
-Repo Harness is distributed as an Agent Skill: keep [`SKILL.md`](SKILL.md) together with its supporting [`references/`](references/) directory. It is not a standalone package or executable.
+Repo Harness is distributed as a collection of two Agent Skills. Install each skill directory with its `SKILL.md` and supporting `references/` directory; the collection is not a standalone package or executable.
 
 ### Generic installation
 
-Clone the repository, then place or link the complete `repo-harness/` directory into a runtime-supported Agent Skills directory:
+Clone the repository, then place or link both skill directories into the runtime's supported Agent Skills directory:
 
 ```bash
 git clone https://github.com/amnotwallas/repo-harness.git
@@ -187,27 +192,37 @@ git clone https://github.com/amnotwallas/repo-harness.git
 
 ### Codex
 
-Place or link `repo-harness/` in the shared `~/.agents/skills/` Agent Skills directory. If your Codex environment configures a different skills directory, use that directory instead.
+Place or link both skill directories in the shared `~/.agents/skills/` Agent Skills directory. If your Codex environment configures a different skills directory, use that directory instead.
 
 For local development, link the repository directly:
 
 ```bash
-ln -s /path/to/repo-harness ~/.agents/skills/repo-harness
+ln -s /path/to/repo-harness/skills/harness-start ~/.agents/skills/harness-start
+ln -s /path/to/repo-harness/skills/harness-audit ~/.agents/skills/harness-audit
 ```
 
 ### Claude Code
 
-Claude Code's user-level Agent Skills directory is `~/.claude/skills/`. Place or link `repo-harness/` there with `SKILL.md` at the skill root.
+Claude Code's user-level Agent Skills directory is `~/.claude/skills/`. Place or link both skill directories there with `SKILL.md` at each skill root.
 
 For local development, link the repository directly:
 
 ```bash
-ln -s /path/to/repo-harness ~/.claude/skills/repo-harness
+ln -s /path/to/repo-harness/skills/harness-start ~/.claude/skills/harness-start
+ln -s /path/to/repo-harness/skills/harness-audit ~/.claude/skills/harness-audit
 ```
 
 ### Google Antigravity / Antigravity CLI
 
-No exact installation path is verified for Antigravity or its CLI. Place or link `repo-harness/` into the Agent Skills directory supported by your Antigravity runtime; keep `SKILL.md` and `references/` together.
+No exact installation path is verified for Antigravity or its CLI. Place or link both skill directories into the Agent Skills directory supported by your Antigravity runtime. Conceptually, the workspace layout is:
+
+```text
+.agents/skills/
+├── harness-start/
+│   └── SKILL.md
+└── harness-audit/
+    └── SKILL.md
+```
 
 ### Verify installation
 
@@ -215,25 +230,29 @@ After installation, try a natural-language request such as:
 
 ```text
 Use the repo-harness skill to audit this repository.
+
+Audit the engineering harness of this repository.
+
+Set up the engineering harness for this repository.
 ```
 
-The runtime may expose this request through its own interface. `harness:start` and `harness:audit` remain logical intents, not universally registered slash commands.
+The runtime may expose these requests through its own interface. `harness:start` and `harness:audit` remain logical intents, not universally registered slash commands.
 
 ## Usage
 
 After installation, use natural-language requests such as:
 
 ```text
-Set up the engineering harness for this repo.
+Set up the engineering harness for this repository.
 
-Check whether this repository is agent-ready.
+Audit the engineering harness of this repository.
 ```
 
-The corresponding logical intents are `harness:start` and `harness:audit`. How those intents are exposed depends on the runtime.
+The corresponding logical intents are `harness:start` and `harness:audit`; how those intents are exposed depends on the runtime.
 
 ## Runtime compatibility
 
-The skill remains vendor-neutral across Codex, Claude Code, Google Antigravity, Antigravity CLI, and other runtimes compatible with Agent Skills and `SKILL.md`. The installation notes above are limited to verified directory conventions; no runtime-specific code or integration is included.
+The skills remain vendor-neutral across Codex, Claude Code, Google Antigravity, Antigravity CLI, and other runtimes compatible with Agent Skills and `SKILL.md`. The installation notes above are limited to verified directory conventions; no runtime-specific code or integration is included.
 
 ## What Repo Harness is not
 
@@ -248,15 +267,11 @@ Repo Harness is not:
 
 ## Behavioral tests
 
-The conceptual scenarios in [`tests/scenarios/`](tests/scenarios/) cover:
+The conceptual scenarios in [`tests/start/`](tests/start/) and [`tests/audit/`](tests/audit/) cover:
 
-- a healthy project that needs no unnecessary artifacts;
-- a poor harness with reasonable source code;
-- stale documentation contradicting executable configuration;
-- useful vendor-specific instructions that should be reused;
-- root and workspace concerns in a monorepo;
-- proportional behavior for a minimal library; and
-- runtime command safety when a canonical command has external side effects.
+- `harness-start` behavior for healthy and minimal projects, vendor-specific guidance, and runtime command safety;
+- `harness-audit` behavior for poor harnesses, stale documentation, monorepos, capability evidence, dependency contracts, and static runtime inference; and
+- boundary behavior preventing either skill from taking the other's responsibility.
 
 ## Status
 

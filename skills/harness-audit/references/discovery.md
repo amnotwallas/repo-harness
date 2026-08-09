@@ -1,6 +1,6 @@
 # Repository discovery
 
-Discover enough context to make a harness decision confidently. Prefer a short, high-signal pass over an exhaustive scan.
+Discover enough context to evaluate the repository harness confidently. Prefer a short, high-signal pass over an exhaustive scan.
 
 ## Discovery order
 
@@ -22,15 +22,13 @@ Look for high-signal names such as `README`, manifests, lockfiles, `Makefile`, t
 
 Start at the root. Follow links and references only when they answer a current question about purpose, navigation, constraints, operations, or verification. Inspect representative modules when the root docs do not establish ownership; do not read every source file.
 
-Use this stop condition for the repository as a whole:
-
-> Stop exploring once enough evidence exists to identify the relevant capability, its current owner, and the smallest safe correction—or to conclude that no correction is justified.
+Stop exploring once enough evidence exists to identify the relevant capability, its current owner, and the smallest useful correction—or to conclude that no correction is justified.
 
 ### Dimension-level stop conditions
 
 Evaluate each relevant harness dimension independently. Stop exploring a dimension once its evidence is sufficient to evaluate the capability confidently and identify its source of truth or current owner. Continue deeper only when the evidence for that dimension is missing, contradictory, or high-risk to act on without more context.
 
-Before expanding a dimension's scan, ask whether the next file can change its score, finding, ownership, or recommended correction. If not, stop. Do not keep scanning to confirm the absence of a preferred filename, directory, or common tool.
+Before expanding a dimension's scan, ask whether the next file can change the decision, ownership, or recommended correction. If not, stop. Do not keep scanning to confirm the absence of a preferred filename, directory, or common tool.
 
 ## Monorepos and workspaces
 
@@ -42,7 +40,7 @@ Identify the root manifest and workspace boundaries first. Then inspect:
 - workspace-local test or integration commands;
 - root and local constraints, including which one owns each rule.
 
-Keep root-level and workspace-level findings separate. Preserve local ownership when a rule or command applies to one workspace only. Do not flatten the repository into one document or demand one command when valid scopes differ.
+Keep root-level and workspace-level concerns separate. Preserve local ownership when a rule or command applies to one workspace only. Do not flatten the repository into one document or demand one command when valid scopes differ.
 
 ## Questions after discovery
 
@@ -56,7 +54,7 @@ Do not ask for facts already present in a manifest, lockfile, script, CI file, R
 
 ## Evidence to capture
 
-For each possible gap, record:
+For each possible gap or finding, record:
 
 - the capability affected;
 - the exact file, section, command, or configuration evidence;
@@ -64,4 +62,4 @@ For each possible gap, record:
 - the smallest correction that would make the capability discoverable or executable;
 - uncertainty that still needs a question or runtime check.
 
-Missing files or directories are leads, not findings. First check whether an equivalent capability exists elsewhere and is discoverable. Record a finding only when the absence causes a specific discoverability, consistency, safety, or verification failure, and describe that capability failure with evidence rather than naming the missing path alone.
+Missing files or directories are leads, not findings. First check whether an equivalent capability exists elsewhere and is discoverable. Record a gap or finding only when the absence causes a specific discoverability, consistency, safety, or verification failure, and describe that capability failure with evidence rather than naming the missing path alone.

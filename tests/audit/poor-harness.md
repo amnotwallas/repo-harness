@@ -2,7 +2,7 @@
 
 ## Intent
 
-Ensure `harness:audit` identifies harness weaknesses without confusing them with source-code quality.
+Ensure `harness-audit` identifies harness weaknesses without confusing them with source-code quality.
 
 ## Fixture profile
 
@@ -20,12 +20,13 @@ The repository's implementation is reasonably tested and the code is maintainabl
 
 ## Expected behavior
 
-1. Select `harness:audit`.
+1. Use `harness-audit`.
 2. Evaluate all seven dimensions: Context, Navigation, Constraints, Verification, Feedback Loops, Operational Understanding, and Agent Readiness.
 3. Explain that the source code may be healthy while the harness is weak.
 4. Produce important findings with severity, dimension, repository evidence, impact, smallest useful fix, and affected paths where relevant.
 5. Prioritize the missing canonical verification path, hidden constraints, and undocumented setup knowledge over cosmetic documentation.
 6. Treat scores as evidence-based summaries rather than scientific measurements.
+7. Keep the audit non-mutating; recommendations are output, not edits.
 
 ## Must not happen
 
@@ -33,10 +34,11 @@ The repository's implementation is reasonably tested and the code is maintainabl
 - Infer defects that the fixture does not support.
 - Score dimensions without evidence.
 - Recommend a full documentation rewrite when a smaller correction solves the gap.
+- Implement any finding or switch into `harness-start` during the audit.
 
 ## Pass criteria
 
-The output is a seven-dimension harness audit with evidence-backed findings and no invented source-code criticism.
+The output is a seven-dimension harness audit with evidence-backed findings, no invented source-code criticism, and no repository mutation.
 
 ## Baseline observation without the skill
 
@@ -44,4 +46,4 @@ The baseline agent correctly separated harness quality from source quality and p
 
 ## GREEN observation with the skill
 
-The skill emitted a seven-dimension audit with approximate scores, evidence-backed HIGH findings, prioritized smallest corrections, and explicit uncertainty for paths and commands that were not supplied. It did not invent source-code defects or add vendor-specific artifacts.
+The skill emitted a seven-dimension audit with approximate scores, evidence-backed HIGH findings, prioritized smallest corrections, and explicit uncertainty for paths and commands that were not supplied. It did not invent source-code defects, add vendor-specific artifacts, or modify the repository.

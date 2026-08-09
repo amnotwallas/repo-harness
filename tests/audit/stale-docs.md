@@ -2,7 +2,7 @@
 
 ## Intent
 
-Ensure `harness:audit` checks documentation against executable configuration and surfaces contradictions.
+Ensure `harness-audit` checks documentation against executable configuration and surfaces contradictions.
 
 ## Fixture profile
 
@@ -20,21 +20,23 @@ The repository contains:
 
 ## Expected behavior
 
-1. Select `harness:audit` from the natural-language request.
+1. Use `harness-audit` from the natural-language request.
 2. Inspect the README, agent guidance, package metadata/lockfile, scripts, and CI together.
 3. Report the Node/package-manager/command mismatch as a contradiction with concrete evidence.
 4. Explain how the contradiction can make an agent believe a change is complete when CI will reject it.
 5. Recommend one source of truth and links or references rather than duplicating competing instructions.
+6. Keep the audit non-mutating and do not run project commands unless runtime validation is explicitly requested.
 
 ## Must not happen
 
 - Accept the README as authoritative without checking executable configuration.
 - Report only that documentation is "outdated" without naming the conflicting sources.
 - Propose a vendor-specific instruction file as the first fix.
+- Modify the documentation or implement the recommendation during the audit.
 
 ## Pass criteria
 
-The contradiction is identified as a harness finding with evidence from both documentation and executable configuration.
+The contradiction is identified as a harness finding with evidence from both documentation and executable configuration, while the repository remains unchanged.
 
 ## Baseline observation without the skill
 
@@ -42,4 +44,4 @@ The baseline agent found the Node/npm versus Node/pnpm contradiction and propose
 
 ## GREEN observation with the skill
 
-The skill treated the request as a static audit, identified the complete contradiction, used the executable sources as the stronger signal for package-manager discovery, and retained only the unresolved Node-support policy as a question.
+The skill treated the request as a static audit, identified the complete contradiction, used the executable sources as the stronger signal for package-manager discovery, retained only the unresolved Node-support policy as a question, and made no changes.

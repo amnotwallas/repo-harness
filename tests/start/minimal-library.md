@@ -2,7 +2,7 @@
 
 ## Intent
 
-Ensure the skill scales harness recommendations to a tiny repository and avoids over-engineering.
+Ensure `harness-start` scales recommendations to a tiny repository and avoids over-engineering.
 
 ## Fixture profile
 
@@ -21,12 +21,13 @@ The repository is a small single-package library with:
 
 ## Expected behavior
 
-1. Select `harness:start`.
+1. Use `harness-start`.
 2. Discover the package manifest, README, tests, and available command before asking questions.
 3. Acknowledge that the existing small harness may already be adequate.
 4. If proposing an improvement, keep it proportional, such as a short navigation or completion note in the existing README.
 5. Do not treat missing linting, type checking, formatting, or other common tooling as a finding by itself; recommend it only if repository evidence shows a verification or feedback-loop gap.
 6. Do not invent operational documentation, architecture files, CI, dashboards, or multiple agent instruction files without evidence that they solve a real problem.
+7. Do not emit the audit scorecard or implement audit recommendations while handling this start request.
 
 ## Must not happen
 
@@ -34,6 +35,7 @@ The repository is a small single-package library with:
 - Treat the absence of CI, services, or observability docs as automatically deficient.
 - Prescribe linting, type checking, formatting, or other common tools merely because they are absent.
 - Add tools or commands that duplicate the package manager's existing test command.
+- Turn the start request into a generic code review or audit.
 
 ## Pass criteria
 
@@ -45,4 +47,4 @@ The baseline agent correctly avoided services and CI, but it still proposed a ne
 
 ## GREEN observation with the skill
 
-The skill skipped `AGENTS.md`, CI, services, linting, type checking, formatting, and new verification tooling, and proposed only a brief README workflow note if inspection showed the current README did not already provide it.
+The skill skipped `AGENTS.md`, CI, services, linting, type checking, formatting, and new verification tooling, proposed only a brief README workflow note if inspection showed the current README did not already provide it, and emitted no audit scorecard.

@@ -1,5 +1,5 @@
 ---
-name: harness-start
+name: start
 description: Use when bootstrapping, setting up, or improving the engineering harness around an existing software repository.
 ---
 
@@ -45,4 +45,4 @@ Prefer an existing canonical command such as `make verify`, `just verify`, a pac
 
 The start workflow is complete only when discovery preceded questions and edits, recommendations are evidence-based and minimal, existing conventions were preserved, verification was run safely or its absence is explicit, and the final report separates changes, evidence, uncertainty, and skipped work.
 
-Do not produce the seven-dimension audit or implement audit findings in this workflow. Use the `harness-audit` skill for a non-mutating audit, then use this skill for an explicitly requested implementation follow-up.
+Do not produce the seven-dimension audit or implement audit findings in this workflow. Use the `harness:audit` skill for a non-mutating audit, then use this skill for an explicitly requested implementation follow-up.

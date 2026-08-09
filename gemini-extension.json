@@ -1,0 +1,5 @@
+{
+  "name": "harness",
+  "description": "Vendor-neutral skills for bootstrapping and auditing repository engineering harnesses.",
+  "version": "1.0.0"
+}

@@ -2,7 +2,7 @@
 
 ## Intent
 
-Ensure `harness-start` remains vendor-neutral while reusing useful instructions that already exist for a particular runtime.
+Ensure `harness:start` remains vendor-neutral while reusing useful instructions that already exist for a particular runtime.
 
 ## Fixture profile
 
@@ -14,7 +14,7 @@ The repository has a useful `CLAUDE.md` that documents source navigation, a risk
 
 ## Expected behavior
 
-1. Use `harness-start`.
+1. Use `harness:start`.
 2. Discover and evaluate the existing `CLAUDE.md` as useful repository guidance.
 3. Reuse, extend, or link the existing source of truth only if a demonstrated capability gap remains.
 4. Explain why a new `AGENTS.md` or runtime-specific duplicate is unnecessary when the current guidance is discoverable and coherent.
@@ -30,7 +30,7 @@ The repository has a useful `CLAUDE.md` that documents source navigation, a risk
 
 ## Pass criteria
 
-The response preserves the useful `CLAUDE.md`, avoids duplicate instructions, describes any change as a repository capability improvement rather than a runtime preference, and remains within `harness-start`.
+The response preserves the useful `CLAUDE.md`, avoids duplicate instructions, describes any change as a repository capability improvement rather than a runtime preference, and remains within `harness:start`.
 
 ## Baseline observation without the skill
 

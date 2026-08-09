@@ -4,8 +4,8 @@
 
 Create a vendor-agnostic collection named `repo-harness` containing two focused Agent Skills for improving and auditing the engineering harness around a software repository:
 
-* `harness-start` for bootstrapping or improving a repository harness
-* `harness-audit` for evaluating an existing repository harness
+* `start` for bootstrapping or improving a repository harness
+* `audit` for evaluating an existing repository harness
 
 `repo-harness` is the collection name, not a third coordinator skill.
 
@@ -54,12 +54,13 @@ Evaluate capabilities, not file presence.
 v1 supports only these two skills:
 
 ```text
-harness-start
-harness-audit
+harness:start
+harness:audit
 ```
 
-The logical UX labels `harness:start` and `harness:audit` may be used to refer to
-the corresponding skills, but actual slash-command registration is runtime-dependent.
+These are the fully-qualified operations for the `harness` plugin namespace.
+Runtimes without plugin namespacing may expose the secondary aliases
+`harness-start` and `harness-audit`. Natural-language discovery is always valid.
 
 The skill must also work from natural-language requests such as:
 
@@ -77,7 +78,7 @@ Do not require actual slash-command registration.
 
 ---
 
-# harness-start skill
+# harness:start skill
 
 Purpose:
 
@@ -258,7 +259,7 @@ implicit follow-up.
 
 ---
 
-# harness-audit skill
+# harness:audit skill
 
 Purpose:
 
@@ -277,7 +278,7 @@ The audit is non-mutating, not strictly command-free:
 * it must classify the full command chain before execution and skip or ask for
   approval when the command is unsafe or unclear; and
 * it never implements its own findings or recommendations. An explicitly
-  requested implementation follow-up belongs to `harness-start`.
+  requested implementation follow-up belongs to `harness:start`.
 
 Bad:
 
@@ -577,7 +578,7 @@ Never automatically run:
 If a command is unsafe or unclear, ask for approval or report that verification
 was not executed. Never claim skipped verification passed. Safe runtime checks
 must not make the audit mutating, and the audit must not implement its findings;
-an authorized implementation follow-up belongs to `harness-start`.
+an authorized implementation follow-up belongs to `harness:start`.
 
 ---
 
@@ -587,13 +588,18 @@ Create:
 
 ```text
 repo-harness/
+├── .claude-plugin/
+│   └── plugin.json
+├── .codex-plugin/
+│   └── plugin.json
+├── gemini-extension.json
 ├── skills/
-│   ├── harness-start/
+│   ├── start/
 │   │   ├── SKILL.md
 │   │   └── references/
 │   │       ├── discovery.md
 │   │       └── harness-patterns.md
-│   └── harness-audit/
+│   └── audit/
 │       ├── SKILL.md
 │       └── references/
 │           ├── discovery.md
@@ -609,6 +615,16 @@ repo-harness/
 └── LICENSE
 ```
 
+The collection manifests use `harness` as the plugin identity:
+
+* `.claude-plugin/plugin.json`
+* `.codex-plugin/plugin.json`
+* `gemini-extension.json`
+
+Antigravity may materialize a root `plugin.json` during installation. That
+generated file is not a behavioral source of truth and is not required in the
+repository when the installer creates it.
+
 Keep each `SKILL.md` concise and understandable without loading the unrelated
 skill. Do not keep a root `SKILL.md` coordinator.
 
@@ -621,20 +637,20 @@ Do not create scripts or templates unless they become clearly necessary during i
 
 # Skill files
 
-`skills/harness-start/SKILL.md` uses:
+`skills/start/SKILL.md` uses:
 
 ```yaml
 ---
-name: harness-start
+name: start
 description: Use when bootstrapping, setting up, or improving the engineering harness around an existing software repository.
 ---
 ```
 
-`skills/harness-audit/SKILL.md` uses:
+`skills/audit/SKILL.md` uses:
 
 ```yaml
 ---
-name: harness-audit
+name: audit
 description: Use when auditing, evaluating, or diagnosing the engineering harness or agent readiness of a software repository.
 ---
 ```
@@ -648,11 +664,11 @@ Each `SKILL.md` should define its own:
 * command safety
 * completion criteria
 
-`harness-start` must discover before asking, identify capability gaps, propose
+`harness:start` must discover before asking, identify capability gaps, propose
 minimum evidence-based changes, preserve conventions, modify only when
 requested, and verify safely.
 
-`harness-audit` must be static/read-only by default, non-mutating, safe-runtime
+`harness:audit` must be static/read-only by default, non-mutating, safe-runtime
 only on explicit request, evidence-based across all seven dimensions, and must
 never implement its own findings. Critical command-safety behavior belongs
 directly in both files, not only in references.
@@ -673,7 +689,7 @@ Core rules:
 
 # References
 
-## `skills/harness-start/references/discovery.md` and `skills/harness-audit/references/discovery.md`
+## `skills/start/references/discovery.md` and `skills/audit/references/discovery.md`
 
 Explain:
 
@@ -692,7 +708,7 @@ Core rule:
 > Stop exploring a dimension once enough evidence exists to evaluate it
 > confidently; continue only for missing, contradictory, or high-risk evidence.
 
-## `skills/harness-audit/references/audit-rubric.md`
+## `skills/audit/references/audit-rubric.md`
 
 For every audit dimension define:
 
@@ -705,7 +721,7 @@ For every audit dimension define:
 
 Keep scoring capability-based.
 
-## `skills/harness-audit/references/findings.md`
+## `skills/audit/references/findings.md`
 
 Define:
 
@@ -715,7 +731,7 @@ Define:
 * uncertainty language
 * prioritization
 
-## `skills/harness-start/references/harness-patterns.md`
+## `skills/start/references/harness-patterns.md`
 
 Document reusable patterns such as:
 
@@ -767,36 +783,36 @@ Important start behaviors:
 
 ### Healthy project
 
-`harness-start` verifies the resulting harness when safe verification can be
+`harness:start` verifies the resulting harness when safe verification can be
 performed. Static inspection is acceptable when runtime execution was not
 requested or cannot be performed safely. It does not propose unnecessary files.
 
 ### Minimal library
 
-`harness-start` does not over-engineer a tiny repository or prescribe common
+`harness:start` does not over-engineer a tiny repository or prescribe common
 tooling without evidence of a real verification or feedback-loop gap.
 
 ### Vendor-specific
 
-`harness-start` reuses useful existing instructions instead of blindly creating
+`harness:start` reuses useful existing instructions instead of blindly creating
 duplicates or vendor-specific files.
 
 ### Runtime command safety
 
 When a documented or canonical command includes an unsafe or external-side-effect
-operation, `harness-start` detects and classifies it, does not execute it
+operation, `harness:start` detects and classifies it, does not execute it
 automatically, and explains the skipped verification or asks for approval.
 
 Important audit behaviors:
 
 ### Poor harness
 
-`harness-audit` detects harness problems even if source code quality is
+`harness:audit` detects harness problems even if source code quality is
 reasonable, while remaining non-mutating and not implementing recommendations.
 
 ### Capability over file presence
 
-`harness-audit` does not report a missing file or directory by itself when an
+`harness:audit` does not report a missing file or directory by itself when an
 equivalent capability exists elsewhere.
 
 ### Missing-path contract
@@ -806,30 +822,30 @@ path remains evidence or an affected file, not the root problem.
 
 ### Dependency contract
 
-`harness-audit` keeps dependency/configuration inconsistencies within harness
+`harness:audit` keeps dependency/configuration inconsistencies within harness
 scope, describing reproducibility or source-of-truth problems rather than
 becoming a package correctness scanner.
 
 ### Static runtime inference
 
-Without execution or other proof, `harness-audit` describes runtime impact
+Without execution or other proof, `harness:audit` describes runtime impact
 conditionally and calibrates severity to evidence confidence; static inference
 alone is rarely `CRITICAL`.
 
 ### Stale docs
 
-`harness-audit` detects contradictions between documentation and executable
+`harness:audit` detects contradictions between documentation and executable
 configuration.
 
 ### Monorepo
 
-`harness-audit` recognizes root-level and workspace-level harness concerns and
+`harness:audit` recognizes root-level and workspace-level harness concerns and
 preserves their ownership.
 
 Both skills stop exploring a dimension once enough evidence exists for a
 confident decision and continue only when evidence is missing, contradictory,
-or high-risk. Boundary checks ensure `harness-start` does not become the audit
-scorecard and `harness-audit` does not mutate or implement findings.
+or high-risk. Boundary checks ensure `harness:start` does not become the audit
+scorecard and `harness:audit` does not mutate or implement findings.
 
 ---
 
@@ -858,7 +874,7 @@ Replacing useful existing harness infrastructure.
 
 Treating the collection as a third coordinator skill.
 
-Letting `harness-audit` implement its own findings.
+Letting `harness:audit` implement its own findings.
 
 Creating a CLI for v1.
 ```
@@ -869,11 +885,11 @@ Creating a CLI for v1.
 
 The implementation is complete when:
 
-* `skills/harness-start/SKILL.md` exists and is vendor-neutral
-* `skills/harness-audit/SKILL.md` exists and is vendor-neutral
+* `skills/start/SKILL.md` exists and is vendor-neutral
+* `skills/audit/SKILL.md` exists and is vendor-neutral
 * no root coordinator `SKILL.md` exists
-* `harness-start` behavior is clearly defined
-* `harness-audit` behavior is clearly defined as non-mutating
+* `harness:start` behavior is clearly defined
+* `harness:audit` behavior is clearly defined as non-mutating
 * repository discovery happens before questions
 * audit uses the seven dimensions
 * findings require evidence
@@ -882,7 +898,7 @@ The implementation is complete when:
 * minimalism is explicitly enforced
 * static audits are the default and safe runtime validation requires explicit request and command classification
 * behavioral regression scenarios are preserved and organized under `tests/start/` and `tests/audit/`
-* no CLI, MCP server, dashboard, or vendor plugin has been added
+* no CLI, MCP server, dashboard, vendor-specific behavior, or runtime adapter has been added
 
 ---
 

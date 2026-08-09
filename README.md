@@ -6,8 +6,8 @@ Repo Harness helps an unfamiliar developer or coding agent understand where to w
 
 | Skill | Purpose |
 | --- | --- |
-| `harness-start` | Bootstrap or improve a repository harness |
-| `harness-audit` | Evaluate an existing repository harness |
+| `harness:start` | Bootstrap or improve a repository harness |
+| `harness:audit` | Evaluate an existing repository harness |
 
 ## Why Repo Harness?
 
@@ -41,27 +41,27 @@ flowchart TB
 
 ## How it works
 
-`harness-start` and `harness-audit` are the two skills in the collection. `harness:start` and `harness:audit` are logical UX labels; actual slash-command registration depends on the runtime.
+`harness:start` and `harness:audit` are the two fully-qualified operations in the `harness` plugin namespace. Runtimes without plugin namespacing may expose the secondary aliases `harness-start` and `harness-audit`; natural-language discovery remains universal.
 
 ```mermaid
 flowchart TD
     repository["Repository"] --> discover["Discover high-signal context"]
     discover --> intent{"Logical intent"}
 
-    intent --> start["harness-start"]
+    intent --> start["harness:start"]
     start --> startGaps["Find gaps"]
     startGaps --> startPlan["Minimal harness plan"]
     startPlan --> startImplement["Implement"]
     startImplement --> startVerify["Verify safely"]
 
-    intent --> audit["harness-audit"]
+    intent --> audit["harness:audit"]
     audit --> auditEvaluate["Evaluate capabilities"]
     auditEvaluate --> auditScore["Scorecard"]
     auditScore --> auditFindings["Evidence-based findings"]
     auditFindings --> auditImprove["Prioritized improvements"]
 ```
 
-### `harness-start`
+### `harness:start`
 
 Bootstrap or improve the minimum useful harness for the current repository:
 
@@ -72,7 +72,7 @@ discover → identify gaps → ask only necessary questions
 
 Discovery comes before questions. Existing conventions and sources of truth are reused before new files, commands, or documentation are proposed.
 
-### `harness-audit`
+### `harness:audit`
 
 Evaluate how safely and efficiently an unfamiliar human or coding agent can understand, modify, and verify the repository:
 
@@ -146,7 +146,7 @@ Findings should cite repository evidence, explain impact, and recommend the smal
 
 ## Safety
 
-`harness-audit` is non-mutating: it inspects repository files by default and may run safe local validation only when the user explicitly requests runtime validation. `harness-start` may modify the repository when requested, but verifies safely after changes. Both skills classify a command and its full chain before execution.
+`harness:audit` is non-mutating: it inspects repository files by default and may run safe local validation only when the user explicitly requests runtime validation. `harness:start` may modify the repository when requested, but verifies safely after changes. Both skills classify a command and its full chain before execution.
 
 Commands that deploy, publish, mutate cloud or shared state, alter production data, perform destructive migrations, require credentialed external operations, or have unclear effects must not be executed automatically. If a command is unsafe, ask for approval or report that runtime verification was not executed. Never claim that skipped verification passed.
 
@@ -154,13 +154,18 @@ Commands that deploy, publish, mutate cloud or shared state, alter production da
 
 ```text
 repo-harness/
+├── .claude-plugin/
+│   └── plugin.json
+├── .codex-plugin/
+│   └── plugin.json
+├── gemini-extension.json
 ├── skills/
-│   ├── harness-start/
+│   ├── start/
 │   │   ├── SKILL.md
 │   │   └── references/
 │   │       ├── discovery.md
 │   │       └── harness-patterns.md
-│   └── harness-audit/
+│   └── audit/
 │       ├── SKILL.md
 │       └── references/
 │           ├── discovery.md
@@ -180,53 +185,89 @@ Each `SKILL.md` defines one focused behavior and stays with its supporting refer
 
 ## Installation
 
-Repo Harness is distributed as a collection of two Agent Skills. Install each skill directory with its `SKILL.md` and supporting `references/` directory; the collection is not a standalone package or executable.
+Repo Harness is distributed as a collection of two Agent Skills. The `skills/` tree is the behavioral source of truth; the runtime manifests only identify the `harness` collection and point runtimes at those skills.
 
 ### Generic installation
 
-Clone the repository, then place or link both skill directories into the runtime's supported Agent Skills directory:
+Clone the repository:
 
 ```bash
 git clone https://github.com/amnotwallas/repo-harness.git
 ```
 
-### Codex
-
-Place or link both skill directories in the shared `~/.agents/skills/` Agent Skills directory. If your Codex environment configures a different skills directory, use that directory instead.
-
-For local development, link the repository directly:
+For a runtime without plugin installation, place or link the two skill directories into its supported Agent Skills directory. Where symlinked aliases are supported, the secondary standalone aliases are:
 
 ```bash
-ln -s /path/to/repo-harness/skills/harness-start ~/.agents/skills/harness-start
-ln -s /path/to/repo-harness/skills/harness-audit ~/.agents/skills/harness-audit
+ln -s /path/to/repo-harness/skills/start ~/.agents/skills/harness-start
+ln -s /path/to/repo-harness/skills/audit ~/.agents/skills/harness-audit
+```
+
+These aliases are runtime-dependent compatibility helpers; the canonical operations remain `harness:start` and `harness:audit`.
+
+### Codex
+
+The `.codex-plugin/plugin.json` manifest identifies the collection as `harness` and points to `skills/`. Install the collection through the Codex plugin marketplace that hosts the repository.
+
+For standalone local development, link the aliases into the supported Agent Skills directory:
+
+```bash
+ln -s /path/to/repo-harness/skills/start ~/.agents/skills/harness-start
+ln -s /path/to/repo-harness/skills/audit ~/.agents/skills/harness-audit
 ```
 
 ### Claude Code
 
-Claude Code's user-level Agent Skills directory is `~/.claude/skills/`. Place or link both skill directories there with `SKILL.md` at each skill root.
-
-For local development, link the repository directly:
+The `.claude-plugin/plugin.json` manifest identifies the collection as `harness`. For local development, load this checkout for a session with:
 
 ```bash
-ln -s /path/to/repo-harness/skills/harness-start ~/.claude/skills/harness-start
-ln -s /path/to/repo-harness/skills/harness-audit ~/.claude/skills/harness-audit
+claude --plugin-dir /path/to/repo-harness
+```
+
+The preferred plugin commands are `/harness:start` and `/harness:audit`.
+
+For standalone local development, link the aliases into Claude Code's user-level skills directory:
+
+```bash
+ln -s /path/to/repo-harness/skills/start ~/.claude/skills/harness-start
+ln -s /path/to/repo-harness/skills/audit ~/.claude/skills/harness-audit
 ```
 
 ### Google Antigravity / Antigravity CLI
 
-No exact installation path is verified for Antigravity or its CLI. Place or link both skill directories into the Agent Skills directory supported by your Antigravity runtime. Conceptually, the workspace layout is:
+The `gemini-extension.json` manifest identifies the collection as `harness`. Install the local checkout with:
+
+```bash
+agy plugin install /path/to/repo-harness
+```
+
+The equivalent remote installation is:
+
+```bash
+agy plugin install https://github.com/amnotwallas/repo-harness
+```
+
+In the verified installation, Antigravity materializes:
 
 ```text
-.agents/skills/
-├── harness-start/
+~/.gemini/config/plugins/harness/skills/
+├── start/
 │   └── SKILL.md
-└── harness-audit/
+└── audit/
     └── SKILL.md
 ```
 
+The runtime may use a different profile path in another Antigravity variant.
+
 ### Verify installation
 
-After installation, try a natural-language request such as:
+Where plugin namespacing is supported, verify the preferred commands:
+
+```text
+/harness:start
+/harness:audit
+```
+
+Natural-language discovery remains universal:
 
 ```text
 Use the repo-harness skill to audit this repository.
@@ -236,11 +277,11 @@ Audit the engineering harness of this repository.
 Set up the engineering harness for this repository.
 ```
 
-The runtime may expose these requests through its own interface. `harness:start` and `harness:audit` remain logical intents, not universally registered slash commands.
+Slash-command registration is runtime-dependent; these are not universal commands.
 
 ## Usage
 
-After installation, use natural-language requests such as:
+Use natural-language requests such as:
 
 ```text
 Set up the engineering harness for this repository.
@@ -248,7 +289,7 @@ Set up the engineering harness for this repository.
 Audit the engineering harness of this repository.
 ```
 
-The corresponding logical intents are `harness:start` and `harness:audit`; how those intents are exposed depends on the runtime.
+The namespaced operations `harness:start` and `harness:audit` are preferred wherever the installed plugin runtime supports them.
 
 ## Runtime compatibility
 
@@ -269,8 +310,8 @@ Repo Harness is not:
 
 The conceptual scenarios in [`tests/start/`](tests/start/) and [`tests/audit/`](tests/audit/) cover:
 
-- `harness-start` behavior for healthy and minimal projects, vendor-specific guidance, and runtime command safety;
-- `harness-audit` behavior for poor harnesses, stale documentation, monorepos, capability evidence, dependency contracts, and static runtime inference; and
+- `harness:start` behavior for healthy and minimal projects, vendor-neutral guidance, and runtime command safety;
+- `harness:audit` behavior for poor harnesses, stale documentation, monorepos, capability evidence, dependency contracts, and static runtime inference; and
 - boundary behavior preventing either skill from taking the other's responsibility.
 
 ## Status

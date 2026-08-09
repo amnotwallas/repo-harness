@@ -2,7 +2,7 @@
 
 ## Intent
 
-Ensure `harness-audit` discovers a monorepo's root and workspace harness concerns without scanning every file or flattening local ownership.
+Ensure `harness:audit` discovers a monorepo's root and workspace harness concerns without scanning every file or flattening local ownership.
 
 ## Fixture profile
 
@@ -20,7 +20,7 @@ The repository has:
 
 ## Expected behavior
 
-1. Use `harness-audit`.
+1. Use `harness:audit`.
 2. Discover the root manifest, root CI/verification path, workspace boundaries, and representative workspace guidance first.
 3. Evaluate root-level and workspace-level navigation, constraints, setup, and verification separately where ownership differs.
 4. Check parity between root CI and workspace commands before proposing changes.

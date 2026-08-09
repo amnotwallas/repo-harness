@@ -20,7 +20,7 @@ The repository contains:
 
 ## Expected behavior
 
-1. Use `harness-audit` in static mode.
+1. Use `harness:audit` in static mode.
 2. Compare the dependency sources and deployment configuration as a reproducibility contract.
 3. Report a harness finding such as `Dependency sources of truth are inconsistent` or `Deployment dependency contract is not reproducible`.
 4. Cite the conflicting files and explain the effect on setup, deployment, or verification.

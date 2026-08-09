@@ -19,7 +19,7 @@ The repository contains:
 
 ## Expected behavior
 
-1. Use `harness-audit` in static mode and do not execute deployment commands.
+1. Use `harness:audit` in static mode and do not execute deployment commands.
 2. State the repository facts directly and label runtime impact conditionally, for example: `Deployments that install from requirements.txt may fail because required imports appear absent from that dependency source.`
 3. Use uncertainty language such as `may`, `appears`, `could`, or `if` when describing an unexecuted runtime consequence.
 4. Do not use `CRITICAL` for static inference alone; reserve it for strong evidence that a harness failure fundamentally makes safe or reliable changes unreliable.

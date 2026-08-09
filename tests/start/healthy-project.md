@@ -2,7 +2,7 @@
 
 ## Intent
 
-Ensure `harness-start` recognizes an already coherent harness and does not manufacture work.
+Ensure `harness:start` recognizes an already coherent harness and does not manufacture work.
 
 ## Fixture profile
 
@@ -21,7 +21,7 @@ The repository contains:
 
 ## Expected behavior
 
-1. Use `harness-start` from the natural-language request.
+1. Use `harness:start` from the natural-language request.
 2. Inspect the high-signal files before asking anything.
 3. Report that the harness is already sufficient, or identify only narrowly evidenced improvements.
 4. Do not propose `AGENTS.md`, additional documentation, a second verification script, or a new tool merely because those files are absent.

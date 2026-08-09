@@ -2,7 +2,7 @@
 
 ## Intent
 
-Ensure `harness-audit` evaluates discoverable capabilities instead of treating an expected filename or directory as a requirement.
+Ensure `harness:audit` evaluates discoverable capabilities instead of treating an expected filename or directory as a requirement.
 
 ## Fixture profile
 
@@ -22,7 +22,7 @@ The existing documents are discoverable from the root and provide equivalent con
 
 ## Expected behavior
 
-1. Use `harness-audit` in static mode.
+1. Use `harness:audit` in static mode.
 2. Inspect the existing root documentation and links before judging the absent paths.
 3. Do not report `docs/context/` or `AGENTS.md` as a harness gap merely because they are absent.
 4. Evaluate Context and Navigation from the actual discoverability and usefulness of the existing guidance.

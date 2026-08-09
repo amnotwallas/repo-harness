@@ -2,7 +2,7 @@
 
 ## Intent
 
-Ensure `harness-start` scales recommendations to a tiny repository and avoids over-engineering.
+Ensure `harness:start` scales recommendations to a tiny repository and avoids over-engineering.
 
 ## Fixture profile
 
@@ -21,7 +21,7 @@ The repository is a small single-package library with:
 
 ## Expected behavior
 
-1. Use `harness-start`.
+1. Use `harness:start`.
 2. Discover the package manifest, README, tests, and available command before asking questions.
 3. Acknowledge that the existing small harness may already be adequate.
 4. If proposing an improvement, keep it proportional, such as a short navigation or completion note in the existing README.

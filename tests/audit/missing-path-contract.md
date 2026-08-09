@@ -19,7 +19,7 @@ The repository contains:
 
 ## Expected behavior
 
-1. Use `harness-audit` in static mode.
+1. Use `harness:audit` in static mode.
 2. Inspect the instruction references and verify the referenced paths.
 3. Report a finding whose title describes the broken capability, such as `Agent instructions reference context files that do not exist`.
 4. Use the absent paths as evidence or affected files, not as the finding title or root problem.

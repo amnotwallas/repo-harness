@@ -1,0 +1,6 @@
+{
+  "name": "harness",
+  "version": "1.0.0",
+  "description": "Vendor-neutral skills for bootstrapping and auditing repository engineering harnesses.",
+  "skills": "./skills/"
+}

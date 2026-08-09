@@ -2,7 +2,7 @@
 
 ## Intent
 
-Ensure `harness-audit` identifies harness weaknesses without confusing them with source-code quality.
+Ensure `harness:audit` identifies harness weaknesses without confusing them with source-code quality.
 
 ## Fixture profile
 
@@ -20,7 +20,7 @@ The repository's implementation is reasonably tested and the code is maintainabl
 
 ## Expected behavior
 
-1. Use `harness-audit`.
+1. Use `harness:audit`.
 2. Evaluate all seven dimensions: Context, Navigation, Constraints, Verification, Feedback Loops, Operational Understanding, and Agent Readiness.
 3. Explain that the source code may be healthy while the harness is weak.
 4. Produce important findings with severity, dimension, repository evidence, impact, smallest useful fix, and affected paths where relevant.
@@ -34,7 +34,7 @@ The repository's implementation is reasonably tested and the code is maintainabl
 - Infer defects that the fixture does not support.
 - Score dimensions without evidence.
 - Recommend a full documentation rewrite when a smaller correction solves the gap.
-- Implement any finding or switch into `harness-start` during the audit.
+- Implement any finding or switch into `harness:start` during the audit.
 
 ## Pass criteria
 

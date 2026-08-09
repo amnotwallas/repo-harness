@@ -2,7 +2,7 @@
 
 ## Intent
 
-Ensure `harness-audit` checks documentation against executable configuration and surfaces contradictions.
+Ensure `harness:audit` checks documentation against executable configuration and surfaces contradictions.
 
 ## Fixture profile
 
@@ -20,7 +20,7 @@ The repository contains:
 
 ## Expected behavior
 
-1. Use `harness-audit` from the natural-language request.
+1. Use `harness:audit` from the natural-language request.
 2. Inspect the README, agent guidance, package metadata/lockfile, scripts, and CI together.
 3. Report the Node/package-manager/command mismatch as a contradiction with concrete evidence.
 4. Explain how the contradiction can make an agent believe a change is complete when CI will reject it.

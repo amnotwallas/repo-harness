@@ -1,5 +1,5 @@
 ---
-name: harness-audit
+name: audit
 description: Use when auditing, evaluating, or diagnosing the engineering harness or agent readiness of a software repository.
 ---
 
@@ -14,7 +14,7 @@ Evaluate how safely and efficiently an unfamiliar human or coding agent can unde
 - Do not execute tests, builds, lint, type checks, deploys, or other project commands unless the user explicitly requests runtime validation.
 - For an explicit runtime request, classify the full command chain first and execute only safe local validation or read-only inspection.
 - Ask for approval or report skipped verification when a command is unsafe or unclear. Never claim skipped verification passed.
-- Do not implement findings or recommendations in this skill. Use `harness-start` for an explicitly requested implementation follow-up.
+- Do not implement findings or recommendations in this skill. Use `harness:start` for an explicitly requested implementation follow-up.
 
 ## Workflow
 

@@ -25,7 +25,12 @@ The repository is a small single-package library with:
 2. Discover the package manifest, README, tests, and available command before asking questions.
 3. Acknowledge that the existing small harness may already be adequate.
 4. If proposing an improvement, keep it proportional, such as a short navigation or completion note in the existing README.
-5. Do not treat missing linting, type checking, formatting, or other common tooling as a finding by itself; recommend it only if repository evidence shows a verification or feedback-loop gap.
+5. Treat missing linting, type checking, formatting, Ruff, mypy, or other
+   common tooling as neutral by itself. Record a gap or recommend tooling only
+   when evidence shows an actual verification or feedback-loop capability
+   problem, such as CI repeatedly catching issues local verification cannot,
+   repository guidance requiring a check with no executable path, or a known
+   regression class with no existing feedback mechanism.
 6. Do not invent operational documentation, architecture files, CI, dashboards, or multiple agent instruction files without evidence that they solve a real problem.
 7. Do not emit the audit scorecard or implement audit recommendations while handling this start request.
 
@@ -34,12 +39,14 @@ The repository is a small single-package library with:
 - Apply an enterprise harness template to the library.
 - Treat the absence of CI, services, or observability docs as automatically deficient.
 - Prescribe linting, type checking, formatting, or other common tools merely because they are absent.
+- Report missing lint/type-check tooling as a harness gap or prescribe Ruff,
+  mypy, or similar tools without evidence of an actual capability problem.
 - Add tools or commands that duplicate the package manager's existing test command.
 - Turn the start request into a generic code review or audit.
 
 ## Pass criteria
 
-The recommendation is minimal, capability-based, and proportionate to a single-package library. It does not prescribe common tooling without evidence of a real verification or feedback-loop gap.
+The recommendation is minimal, capability-based, and proportionate to a single-package library. It treats absent tooling as neutral and does not prescribe common tools without evidence of a real verification or feedback-loop gap.
 
 ## Baseline observation without the skill
 
@@ -47,4 +54,4 @@ The baseline agent correctly avoided services and CI, but it still proposed a ne
 
 ## GREEN observation with the skill
 
-The skill skipped `AGENTS.md`, CI, services, linting, type checking, formatting, and new verification tooling, proposed only a brief README workflow note if inspection showed the current README did not already provide it, and emitted no audit scorecard.
+The skill skipped `AGENTS.md`, CI, services, linting, type checking, formatting, Ruff, mypy, and new verification tooling, proposed only a brief README workflow note if inspection showed the current README did not already provide it, and emitted no audit scorecard.

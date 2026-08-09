@@ -25,7 +25,7 @@ The repository has:
 3. Evaluate root-level and workspace-level navigation, constraints, setup, and verification separately where ownership differs.
 4. Check parity between root CI and workspace commands before proposing changes.
 5. Recommend the smallest correction at the correct ownership level, preserving workspace-local context.
-6. Evaluate each dimension at the smallest relevant scope and stop exploring it once the root/workspace evidence is sufficient. Continue deeper only when evidence is missing, contradictory, or high-risk; do not scan every package/file.
+6. Evaluate each dimension at the smallest relevant scope and stop exploring it once the root/workspace evidence is sufficient. Continue deeper only when evidence is missing, contradictory, or high-risk; do not scan every package/file or descend into general application implementation and unit tests.
 7. Do not modify the repository or implement recommendations during the audit.
 
 ## Must not happen
@@ -35,6 +35,7 @@ The repository has:
 - Demand one universal command when the existing root and workspace checks have distinct valid scopes.
 - Report unsupported gaps from uninspected workspaces.
 - Continue scanning a dimension after its relevant root and workspace evidence is already sufficient merely to seek more confirmation.
+- Traverse application implementation or unit-test collections to search for unrelated findings after the harness ownership and verification evidence is clear.
 - Switch into the mutating start workflow.
 
 ## Pass criteria

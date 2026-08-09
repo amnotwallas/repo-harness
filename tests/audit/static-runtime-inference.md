@@ -22,14 +22,16 @@ The repository contains:
 1. Use `harness:audit` in static mode and do not execute deployment commands.
 2. State the repository facts directly and label runtime impact conditionally, for example: `Deployments that install from requirements.txt may fail because required imports appear absent from that dependency source.`
 3. Use uncertainty language such as `may`, `appears`, `could`, or `if` when describing an unexecuted runtime consequence.
-4. Do not use `CRITICAL` for static inference alone; reserve it for strong evidence that a harness failure fundamentally makes safe or reliable changes unreliable.
-5. Recommend the smallest contract/source-of-truth correction without claiming that the deployment has already failed.
-6. Do not modify the repository or implement the recommendation.
+4. Do not state that deployment or startup `fails`, or that a runtime consequence is confirmed, unless it was executed or otherwise proven.
+5. Do not use `CRITICAL` for static inference alone; reserve it for strong evidence that a harness failure fundamentally makes safe or reliable changes unreliable.
+6. Recommend the smallest contract/source-of-truth correction without claiming that the deployment has already failed.
+7. Do not modify the repository or implement the recommendation.
 
 ## Must not happen
 
 - State `Vercel will crash on startup` as a confirmed fact.
 - Claim that deployment failed without executing it or citing stronger proof.
+- Use `fails` as confirmed runtime language when the only evidence is static configuration and imports.
 - Assign `CRITICAL` solely because a static dependency inference sounds severe.
 - Switch into the mutating start workflow.
 

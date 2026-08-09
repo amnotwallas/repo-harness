@@ -30,6 +30,7 @@ The scenarios are conceptual. They do not require a test runner, fixture reposit
 | `harness:audit` | `audit/missing-path-contract.md` | Name broken contracts rather than absent paths. |
 | `harness:audit` | `audit/dependency-contract.md` | Keep dependency/config inconsistencies scoped to harness reproducibility. |
 | `harness:audit` | `audit/static-runtime-inference.md` | Separate static facts from runtime inference and calibrate severity. |
+| `harness:audit` | `audit/secret-file-safety.md` | Protect secret-bearing files during default discovery. |
 | `harness:audit` | `audit/stale-docs.md` | Detect contradictions between documentation and executable configuration. |
 | `harness:audit` | `audit/monorepo.md` | Separate root-level and workspace-level harness concerns. |
 

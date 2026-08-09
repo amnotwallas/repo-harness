@@ -27,6 +27,7 @@ The repository's implementation is reasonably tested and the code is maintainabl
 5. Prioritize the missing canonical verification path, hidden constraints, and undocumented setup knowledge over cosmetic documentation.
 6. Treat scores as evidence-based summaries rather than scientific measurements.
 7. Keep the audit non-mutating; recommendations are output, not edits.
+8. Treat implementation details as out of scope unless they demonstrate a specific harness capability or contract failure. If a contract is affected, describe the desired harness outcome without prescribing an application refactor.
 
 ## Must not happen
 
@@ -34,6 +35,8 @@ The repository's implementation is reasonably tested and the code is maintainabl
 - Infer defects that the fixture does not support.
 - Score dimensions without evidence.
 - Recommend a full documentation rewrite when a smaller correction solves the gap.
+- Report hardcoded evaluator sleeps, import style, or other implementation preferences as harness findings without evidence of a discoverability, reproducibility, safety, feedback, or verification contract failure.
+- Prescribe lazy imports or other application refactors merely because they are common code-quality practices.
 - Implement any finding or switch into `harness:start` during the audit.
 
 ## Pass criteria

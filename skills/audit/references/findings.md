@@ -43,6 +43,12 @@ Use the repository’s actual paths and commands. For HIGH and CRITICAL findings
 
 Keep dependency and configuration inconsistencies inside harness scope: report them when they make setup, deployment, verification, or another repository contract non-reproducible or unclear. Do not expand the finding into package-by-package dependency correctness, vulnerability, or modernization advice.
 
+## Harness boundary
+
+Describe the broken harness capability or contract and the desired outcome. Implementation details are evidence only when they demonstrate a specific failure of discoverability, reproducibility, safety, feedback, or verification. Do not turn code-quality observations—such as sleeps, import style, or architecture preferences—into findings or prescribe application refactors without that connection.
+
+Recommendations should improve the repository's harness contract or its discoverability. When an implementation change is genuinely required to restore that contract, state the requirement and evidence rather than prescribing an unrelated refactor.
+
 ## Severity
 
 | Severity | Use when |
@@ -61,7 +67,7 @@ Do not inflate severity to make a recommendation persuasive. Explain the consequ
 - Compare documentation with executable configuration when reporting drift.
 - State what was inspected and what remains unknown when evidence is partial.
 - Keep likely risks separate from confirmed findings.
-- In a static audit, separate observed facts from inferred runtime impact. Use conditional language such as `may`, `appears`, `could`, or `if` unless the consequence was executed or otherwise proven.
+- In a static audit, separate observed facts from inferred runtime impact. Use conditional language such as `may`, `appears`, `could`, or `if` unless the consequence was executed or otherwise proven. Do not say a deployment or runtime command `fails` as a confirmed fact without execution or stronger proof.
 - In runtime mode, record the command and outcome; do not claim a check passed without running it.
 - Do not infer a gap from a missing file when the capability is already available elsewhere.
 
